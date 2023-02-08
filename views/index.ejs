@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script>
+
+        // async function test() {
+        //     await fetch('/tasks', {
+        //         method: "POST"
+        //     })
+        //     .then((data) => {
+        //         data.json();
+        //     })
+        //     .then((data) => {
+                
+        //     })
+        // }
+
+        function loadDoc(titolo) {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    document.getElementById(titolo).remove();
+                }
+            };
+            xhttp.open("POST", "/tasks", true);
+            xhttp.send();
+        }
+
+        function rimuovi(titolo) {
+            fetch('/delete', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({Titolo: titolo})
+            });
+
+            loadDoc(titolo);
+        }
+
+        var tasks = '<%- tasks %>';
+
+    </script>
+
+</head>
+<body>
+    <a href="/addTask">Aggiungi</a>
+        <% for (var i = 0; i < length; i++) { %>
+            <% titolo = tasks[i].Titolo %>
+            <div class="card" id= <%=titolo%> >
+                <h3>Obbiettivo: <br> <%= titolo %> </h3>
+                <h5>Rilevanza: <br> <%=tasks[i].Rilevanza%> </h5>
+                <h4>Descrizione: <br> <%=tasks[i].Descrizione%> </h4> 
+                <button onclick="rimuovi('<%-titolo%>')">rimuovi</button>     
+            </div>
+        <% } %>
+</body>
+</html>
