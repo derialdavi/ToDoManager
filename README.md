@@ -13,3 +13,12 @@ npm install express
 ```
 sudo npm i -g nodemon
 ```
+
+## Come runnare
+```
+node server.js
+```
+oppure
+```
+nodemon server.js
+```
