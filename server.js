@@ -1,6 +1,8 @@
 const fs = require('fs');
 const express = require('express');
 
+const dirPath = __dirname;
+
 const app = express();
 app.set('view engine', 'ejs');
 app.use(express.static("public"));
@@ -11,7 +13,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/tasks', (req, res) => {
-    res.sendFile('/home/finsoft/Documenti/ToDoManager/tasks.json', err => {
+    res.sendFile(dirPath + '/tasks.json', err => {
         if (err) {
             next(err);
         } else {
