@@ -21,6 +21,10 @@ app.post('/tasks', (req, res) => {
         }
     });
 });
+ 
+app.get('/es', (req, res) => {
+    res.render('es');
+})
 
 app.get('/addTask', (req, res) => {
     res.render('addTask');
