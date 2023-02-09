@@ -21,6 +21,10 @@ app.post('/tasks', (req, res) => {
         }
     });
 });
+ 
+app.get('/es', (req, res) => {
+    res.render('es');
+})
 
 app.get('/addTask', (req, res) => {
     res.render('addTask');
@@ -39,6 +43,7 @@ app.post('/add', (req, res) => {
         chunk = chunk.replace(chunk.substring(0, chunk.indexOf('&') + 1), '');
 
         var rilevanza = chunk.substring(chunk.indexOf('=') + 1, chunk.length);
+        rilevanza = rilevanza.replace(/\+/g, ' ');
 
         var file = fs.readFileSync('./tasks.json');
 
@@ -63,6 +68,7 @@ app.post('/delete', (req, res) => {
 
         chunk = chunk.toString();
         chunk = JSON.parse(chunk);
+        chunk.Titolo = chunk.Titolo.replace(/\_/g, ' ');
         console.log(typeof (chunk), chunk.Titolo);
 
         var obj = file.findIndex((obj) => obj.Titolo === chunk.Titolo);
