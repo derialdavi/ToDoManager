@@ -22,6 +22,7 @@ function loadDoc(titolo) {
 }
 
 function rimuovi(titolo) {
+
     fetch('/delete', {
         method: 'POST',
         headers: {
@@ -29,8 +30,9 @@ function rimuovi(titolo) {
         },
         body: JSON.stringify({ Titolo: titolo })
     });
-
+console.log(titolo)
     loadDoc(titolo);
+    
 }
 
 var tasks = '<%- tasks %>';
