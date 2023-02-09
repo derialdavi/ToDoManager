@@ -33,10 +33,11 @@
         </thead>
         <tbody>
             <% for (var i=0; i < length; i++) { %>
-                <% titolo=tasks[i].Titolo %>
+                <% titolo=tasks[i].Titolo.replace(/ /g, '_') %>
                     
-                        <tr id=<%=titolo%>>
+                        <tr id=<%= titolo %>>
                             <th scope="row">
+                                <% titolo=tasks[i].Titolo.replace(/\_/g, ' ') %>
                                 <%= titolo %>
                             </th>
                             <td>
@@ -46,6 +47,7 @@
                                 <%=tasks[i].Rilevanza%>
                             </td>
                             <td>
+                                <% titolo=tasks[i].Titolo.replace(/ /g, '_') %>
                                 <button onclick="rimuovi('<%-titolo%>')" class="btn btn-danger">Rimuovi</button>
                             </td>
                         </tr>
