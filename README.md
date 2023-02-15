@@ -5,8 +5,7 @@ Manager di task da fare
 ## Installazione depenecies
 
 ```
-npm install ejs
-npm install express
+npm install
 ```
 
 ## Installazione Nodemon
