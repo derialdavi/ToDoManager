@@ -1,6 +1,6 @@
 # ToDoManager
 
-Manager di task da fare
+To Do Manager è un'applicazione web che ti consente di segnarti facilmente delle tasks da fare e, una volta finite, possono essere cancellate.
 
 ## Installazione depenecies
 
@@ -8,16 +8,7 @@ Manager di task da fare
 npm install
 ```
 
-## Installazione Nodemon
-```
-sudo npm i -g nodemon
-```
-
 ## Come runnare
 ```
 node server.js
-```
-oppure
-```
-nodemon server.js
 ```
