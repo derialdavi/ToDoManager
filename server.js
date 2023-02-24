@@ -1,11 +1,18 @@
 const fs = require('fs');
 const express = require('express');
+var bodyParser = require('body-parser')
 
 const dirPath = __dirname;
 
 const app = express();
 app.set('view engine', 'ejs');
 app.use(express.static("public"));
+
+// create application/json parser
+var jsonParser = bodyParser.json()
+
+// create application/x-www-form-urlencoded parser
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 app.get('/', (req, res) => {
     var file = fs.readFileSync('./tasks.json');
@@ -21,7 +28,7 @@ app.post('/tasks', (req, res) => {
         }
     });
 });
- 
+
 app.get('/es', (req, res) => {
     res.render('es');
 })
@@ -30,32 +37,24 @@ app.get('/addTask', (req, res) => {
     res.render('addTask');
 });
 
-app.post('/add', (req, res) => {
-    req.on('data', chunk => {
-        chunk = chunk.toString();
+app.post('/add', urlencodedParser, (req, res) => {
+    let titolo = req.body.titolo;
+    titolo = titolo.replace(/\+/g, ' ');
+    let descrizione = req.body.descrizione;
+    descrizione = descrizione.replace(/\+/g, ' ');
+    let rilevanza = req.body.rilevanza;
+    rilevanza = rilevanza.replace(/\+/g, ' ');
 
-        var titolo = chunk.substring(chunk.indexOf('=') + 1, chunk.indexOf('&'));
-        titolo = titolo.replace(/\+/g, ' ');
-        chunk = chunk.replace(chunk.substring(0, chunk.indexOf('&') + 1), '');
+    var file = fs.readFileSync('./tasks.json');
 
-        var descrizione = chunk.substring(chunk.indexOf('=') + 1, chunk.indexOf('&'));
-        descrizione = descrizione.replace(/\+/g, ' ');
-        chunk = chunk.replace(chunk.substring(0, chunk.indexOf('&') + 1), '');
-
-        var rilevanza = chunk.substring(chunk.indexOf('=') + 1, chunk.length);
-        rilevanza = rilevanza.replace(/\+/g, ' ');
-
-        var file = fs.readFileSync('./tasks.json');
-
-        if (file.length === 2) {
-            fs.writeFileSync('tasks.json', '[{"Titolo": "' + titolo + '", "Descrizione": "' + descrizione + '", "Rilevanza": "' + rilevanza + '"}]');
-        }
-        else {
-            file = JSON.parse(file);
-            file.push({ "Titolo": titolo, "Descrizione": descrizione, "Rilevanza": rilevanza });
-            fs.writeFileSync('./tasks.json', JSON.stringify(file));
-        }
-    });
+    if (file.length === 2) {
+        fs.writeFileSync('tasks.json', '[{"Titolo": "' + titolo + '", "Descrizione": "' + descrizione + '", "Rilevanza": "' + rilevanza + '"}]');
+    }
+    else {
+        file = JSON.parse(file);
+        file.push({ "Titolo": titolo, "Descrizione": descrizione, "Rilevanza": rilevanza });
+        fs.writeFileSync('./tasks.json', JSON.stringify(file));
+    }
 
     res.redirect('/');
 });
